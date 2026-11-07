@@ -12,8 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
-    })
+    // Tamu yang membuka halaman admin diarahkan ke login admin.
+    $middleware->redirectGuestsTo(fn () => route('admin.login'));
+    // Admin yang sudah login tidak perlu melihat halaman login lagi.
+    $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
+})
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),

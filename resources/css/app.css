@@ -1,9 +1,229 @@
-@import 'tailwindcss';
+@import "bootstrap/dist/css/bootstrap.min.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --vn-midnight: #0b0f1a;
+    --vn-ivory: #faf9f6;
+    --vn-ink: #12141c;
+    --vn-slate: #5b6275;
+    --vn-indigo: #1f1259;
+    --vn-cyan: #22d3ee;
+    --vn-blue: #2563eb;
+    --vn-violet: #7c3aed;
+    --vn-magenta: #d61f8c;
+    --vn-line: #e7e5ef;
+    --vn-aurora: linear-gradient(
+        135deg,
+        #22d3ee,
+        #2563eb 40%,
+        #7c3aed 70%,
+        #d61f8c
+    );
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --bs-body-font-family:
+        "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --bs-body-bg: var(--vn-ivory);
+    --bs-body-color: var(--vn-ink);
+    --bs-link-color: #5b21b6;
+    --bs-link-hover-color: #3b0f8c;
+    --bs-secondary-color: var(--vn-slate);
+    --bs-border-color: var(--vn-line);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+    font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    color: var(--vn-indigo);
+}
+
+/* Tombol */
+.btn-primary {
+    --bs-btn-bg: var(--vn-indigo);
+    --bs-btn-border-color: var(--vn-indigo);
+    --bs-btn-hover-bg: #2d1b7a;
+    --bs-btn-hover-border-color: #2d1b7a;
+    --bs-btn-active-bg: #170d45;
+    --bs-btn-active-border-color: #170d45;
+    --bs-btn-disabled-bg: var(--vn-indigo);
+    --bs-btn-disabled-border-color: var(--vn-indigo);
+}
+
+.btn-aurora {
+    color: #fff;
+    border: 0;
+    background: var(--vn-aurora);
+    font-weight: 600;
+}
+.btn-aurora:hover,
+.btn-aurora:focus {
+    color: #fff;
+    filter: brightness(1.08);
+}
+.btn-aurora:disabled {
+    color: #fff;
+    opacity: 0.7;
+}
+
+/* Halaman login */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background:
+        radial-gradient(
+            60rem 30rem at 10% 0%,
+            rgba(34, 211, 238, 0.28),
+            transparent 60%
+        ),
+        radial-gradient(
+            50rem 30rem at 100% 10%,
+            rgba(124, 58, 237, 0.35),
+            transparent 60%
+        ),
+        radial-gradient(
+            40rem 25rem at 60% 100%,
+            rgba(214, 31, 140, 0.25),
+            transparent 60%
+        ),
+        var(--vn-midnight);
+}
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--vn-ivory);
+    border-radius: 1.25rem;
+    padding: 2rem 1.75rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+/* Layout admin */
+.admin-shell {
+    display: flex;
+    min-height: 100vh;
+}
+.admin-sidebar {
+    --bs-offcanvas-width: 280px;
+    background: #fff;
+    border-right: 1px solid var(--vn-line);
+}
+@media (min-width: 992px) {
+    .admin-sidebar.offcanvas-lg {
+        flex: 0 0 260px;
+        width: 260px !important;
+        height: 100vh !important;
+        position: sticky !important;
+        top: 0;
+    }
+}
+.admin-main {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.admin-logo {
+    width: 150px;
+    height: auto;
+}
+.admin-nav .nav-link {
+    color: var(--vn-ink);
+    border-radius: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    font-weight: 500;
+}
+.admin-nav .nav-link:hover {
+    background: #f3f0fa;
+}
+.admin-nav .nav-link.active {
+    background: var(--vn-indigo);
+    color: #fff;
+}
+.admin-nav .nav-link.disabled {
+    color: #8f95a8;
+}
+
+/* Kartu statistik */
+.stat-card {
+    background: #fff;
+    border: 1px solid var(--vn-line);
+    border-radius: 1rem;
+    padding: 1.1rem 1.25rem;
+    height: 100%;
+}
+.stat-label {
+    color: var(--vn-slate);
+    font-size: 0.85rem;
+}
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.stat-card-accent {
+    position: relative;
+    overflow: hidden;
+}
+.stat-card-accent::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--vn-aurora);
+}
+
+.panel {
+    background: #fff;
+    border: 1px solid var(--vn-line);
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+.bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--vn-aurora);
+    min-width: 2px;
+}
+.bar-track {
+    background: #efedf6;
+    border-radius: 999px;
+}
+
+/* Badge status pesanan */
+.badge-status {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.status-pending {
+    background: #fff3d6;
+    color: #7a5200;
+}
+.status-confirmed {
+    background: #dceaff;
+    color: #0b3f8f;
+}
+.status-processing {
+    background: #e8e0ff;
+    color: #4c1d95;
+}
+.status-ready_for_pickup {
+    background: #d9f4f1;
+    color: #0b5a52;
+}
+.status-out_for_delivery {
+    background: #d9f4f1;
+    color: #0b5a52;
+}
+.status-completed {
+    background: #ddf5e8;
+    color: #14573a;
+}
+.status-cancelled {
+    background: #fbe1e1;
+    color: #8a1f1f;
 }

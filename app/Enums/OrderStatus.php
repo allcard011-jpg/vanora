@@ -26,7 +26,13 @@ enum OrderStatus: string
     }
 
     public function isFinal(): bool
+
     {
         return in_array($this, [self::Completed, self::Cancelled], true);
+    }
+
+        public function badgeClass(): string
+    {
+        return 'badge-status status-'.$this->value;
     }
 }
