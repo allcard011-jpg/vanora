@@ -13,15 +13,18 @@ class AdminSeeder extends Seeder
     {
         $email = config('vanora.admin_email');
         $password = config('vanora.admin_password');
+        $name = config('vanora.admin_name') ?: 'Admin';
 
         if (! $email || ! $password || strlen($password) < 12) {
-            throw new RuntimeException('Isi ADMIN_EMAIL dan ADMIN_PASSWORD (minimal 12 karakter) di .env sebelum seeding.');
+            throw new RuntimeException(
+                'Isi ADMIN_EMAIL dan ADMIN_PASSWORD (minimal 12 karakter) di Environment.'
+            );
         }
 
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => $email],
             [
-                'name' => config('vanora.admin_name'),
+                'name' => $name,
                 'password' => Hash::make($password),
             ]
         );
