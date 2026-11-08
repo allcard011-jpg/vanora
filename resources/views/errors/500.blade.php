@@ -1,0 +1,5 @@
+@extends('errors.layout')
+@section('title', 'Terjadi kesalahan')
+@section('code', '500')
+@section('heading', 'Terjadi kesalahan di server')
+@section('message', 'Kami sedang memperbaikinya. Silakan coba lagi nanti atau hubungi toko lewat WhatsApp.')

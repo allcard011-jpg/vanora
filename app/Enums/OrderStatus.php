@@ -32,7 +32,25 @@ enum OrderStatus: string
     }
 
         public function badgeClass(): string
+
     {
+
         return 'badge-status status-'.$this->value;
+    }
+
+        /**
+     * Urutan status normal untuk jenis pesanan tertentu (tanpa Cancelled).
+     *
+     * @return array<int, self>
+     */
+    public static function flow(FulfillmentType $type): array
+    {
+        return [
+            self::Pending,
+            self::Confirmed,
+            self::Processing,
+            $type === FulfillmentType::Pickup ? self::ReadyForPickup : self::OutForDelivery,
+            self::Completed,
+        ];
     }
 }

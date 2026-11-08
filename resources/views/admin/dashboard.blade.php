@@ -63,7 +63,10 @@
 
         <div class="col-lg-7">
             <div class="panel h-100">
-                <h2 class="h4 mb-3">Pesanan Terbaru</h2>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h4 mb-0">Pesanan Terbaru</h2>
+                    <a href="{{ route('admin.orders.index') }}" class="small">Lihat semua</a>
+                </div>
                 @if ($recentOrders->isEmpty())
                     <p class="text-secondary mb-0">Belum ada pesanan.</p>
                 @else
@@ -81,7 +84,7 @@
                             <tbody>
                                 @foreach ($recentOrders as $order)
                                     <tr>
-                                        <td class="text-nowrap">{{ $order->order_number }}</td>
+                                        <td class="text-nowrap"><a href="{{ route('admin.orders.show', $order) }}">{{ $order->order_number }}</a></td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->fulfillment_type->label() }}</td>
                                         <td class="text-end text-nowrap">{{ \App\Support\Rupiah::format($order->total) }}</td>

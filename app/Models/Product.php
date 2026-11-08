@@ -36,14 +36,25 @@ class Product extends Model
 
     public function variants(): HasMany
     {
-        return $this->hasMany(ProductVariant::class)->orderBy('size_ml');
+        return $this->hasMany(ProductVariant::class);
     }
 
     /** Produk aktif yang punya minimal satu varian aktif dengan stok. */
+    /** Tampil di katalog: produk aktif, kategori aktif, minimal satu varian aktif dengan stok. */
     public function scopeAvailable(Builder $query): Builder
     {
         return $query->where('is_active', true)
+            ->whereHas('category', fn (Builder $c) => $c->where('is_active', true))
             ->whereHas('variants', fn (Builder $v) => $v->where('is_active', true)->where('stock', '>', 0));
+    }
+
+    /** Menambahkan kolom min_price: harga terendah dari varian yang bisa dibeli. */
+    public function scopeWithStartingPrice(Builder $query): Builder
+    {
+        return $query->withMin(
+            ['variants as min_price' => fn ($v) => $v->where('is_active', true)->where('stock', '>', 0)],
+            'price'
+        );
     }
 
     /** URL gambar; null jika belum ada (tampilan memakai placeholder). */

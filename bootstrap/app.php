@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SecurityHeaders;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,11 +13,27 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-    // Tamu yang membuka halaman admin diarahkan ke login admin.
-    $middleware->redirectGuestsTo(fn () => route('admin.login'));
-    // Admin yang sudah login tidak perlu melihat halaman login lagi.
-    $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
-})
+        // Di hosting (Render) aplikasi berada di belakang proxy HTTPS. Aktif hanya jika
+        // TRUSTED_PROXIES diisi (di Render: *). Lokal dibiarkan kosong.
+        $proxies = env('TRUSTED_PROXIES');
+
+        if ($proxies) {
+            $middleware->trustProxies(
+                at: $proxies,
+                headers: Request::HEADER_X_FORWARDED_FOR
+                    | Request::HEADER_X_FORWARDED_PORT
+                    | Request::HEADER_X_FORWARDED_PROTO,
+            );
+        }
+
+        $middleware->append(SecurityHeaders::class);
+
+        // Tamu yang membuka halaman admin diarahkan ke login admin.
+        $middleware->redirectGuestsTo(fn () => route('admin.login'));
+        // Admin yang sudah login tidak perlu melihat halaman login lagi.
+        $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
+    })
+
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
